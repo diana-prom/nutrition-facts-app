@@ -85,7 +85,7 @@ function applyUIState(state) {
   if (state.carbsCal !== undefined) {
     document.getElementById('carbs-cal').textContent = state.carbsCal;
   }
-  if(state.totalCal != undefined) {
+  if (state.totalCal != undefined) {
     document.getElementById('total-calories').textContent = state.totalCal;
   }
 }
@@ -97,7 +97,7 @@ function applyFoodSuccessUI(food) {
   const fatCalories = calculateCalories(food.fatValue, 9);
   const carbCalories = calculateCalories(food.carbohydrateValue, 4);
   const totalCalories =
-  (proteinCalories ?? 0) + (fatCalories ?? 0) + (carbCalories ?? 0); 
+    (proteinCalories ?? 0) + (fatCalories ?? 0) + (carbCalories ?? 0);
 
   applyUIState({
     resultText: `Nutrition Facts: ${food.description}`,
@@ -108,10 +108,10 @@ function applyFoodSuccessUI(food) {
 
     category: `${food.category ?? 'N/A'}`,
 
-    proteinCal: `Protein calories: ${proteinCalories ?? 'N/A'}`,
-    fatCal: `Fat calories: ${fatCalories ?? 'N/A'}`,
-    carbsCal: `Carbohydrates calories: ${carbCalories ?? 'N/A'}`,
-    totalCal: `Total calories: ${totalCalories ?? 'N/A'}`
+    proteinCal: `Protein: ${proteinCalories ? proteinCalories + ' calories' : 'N/A'}`,
+    fatCal: `Fat: ${fatCalories ? fatCalories + ' calories' : 'N/A'}`,
+    carbsCal: `Carbohydrates: ${carbCalories ? carbCalories + ' calories' : 'N/A'}`,
+    totalCal: `${totalCalories ? totalCalories + ' total calories' : 'N/A'}`
   });
 }
 
@@ -131,7 +131,7 @@ async function apiFetch(url) {
   let body = null;
   try {
     body = await res.json();
-  } catch (_) {}
+  } catch (_) { }
 
   if (!res.ok) {
     const error = new Error(body?.message || 'Request failed');
@@ -143,8 +143,10 @@ async function apiFetch(url) {
   return body;
 }
 
-/** Searches for food name
- * @returns protein/fat/carbohydrates values, calories per macro, food category description and total calories
+/** 
+ * Searches for a food by name and updates the UI with Nutrition data.
+ * Displays macro values, calories per macro, category description and total calories.
+ * @returns {Promise<void>}
  */
 async function searchFood() {
   const name = textField.value.trim();
@@ -153,7 +155,7 @@ async function searchFood() {
   try {
 
     applyUIState(UI_STATES.loading);
-     
+
 
     const food = await apiFetch(
       `${API_BASE}/search/best?name=${encodeURIComponent(name)}`
@@ -181,32 +183,32 @@ async function searchFood() {
     }
 
     // ---- Clear All loading / stale UI ----
-     applyUIState(UI_STATES.default);
-  
+    applyUIState(UI_STATES.default);
+
   }
 }
 
-
-
-/** aggregated endpoint
- * Searches food portion by using fdc_id
- * @Returns portion amount/measure unit/weight gram values
+/** 
+ * Fetches portion data for a food using its FDC ID.
+ * Updates the UI with portion amount, unit, and gram weight.
+ * @param {number|string} fdcId - FoodData Central ID
+ * @returns {Promise<void>}
  */
 async function fetchPortion(fdcId) {
-  
+
   try {
     const portion = await apiFetch(
       `${API_BASE}/portion?fdc_id=${fdcId}`
     );
 
     applyUIState({
-      amount: `Amount: ${portion.amount ?? 'N/A'}`,
-      unit: `Unit: ${portion.unitName ?? 'N/A'}`, 
-      weight: `per weight: ${portion.gramWeight ?? 'N/A'} g`
-      
+      amount: `${portion.amount ?? 'N/A'}`,
+      unit: `${portion.unitName ? portion.unitName + ' (s)' : 'N/A'}`,
+      weight: `per ${portion.gramWeight ?? 'N/A'} g`
+
     });
   }
-  
+
   catch (err) {
     console.error(err);
     applyUIState(UI_PARTIAL_STATES.portionDefault);
@@ -265,3 +267,11 @@ clearButton?.addEventListener('click', () => {
   applyUIState(UI_STATES.default);
 });
 
+// --- Show clear button only when typing --
+textField.addEventListener("input", () => {
+  clearButton.style.display = textField.value ? "inline-flex" : "none";
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyUIState(UI_STATES.default);
+});
