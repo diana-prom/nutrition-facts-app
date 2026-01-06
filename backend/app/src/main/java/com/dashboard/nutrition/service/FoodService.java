@@ -85,7 +85,7 @@ public class FoodService {
                 }))
                 .map(n -> foodMapper.toDTO(n.getFood()))
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "No food with macros found for: " + description
+                        "No nutrition information found for: " + description
                 ));
     }
 }
