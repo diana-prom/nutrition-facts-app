@@ -3,9 +3,9 @@
 }
 
 body {
-  background: -webkit-linear-gradient(45deg, #4158d0, #c850c0);
+  /*background: -webkit-linear-gradient(45deg, #4158d0, #c850c0);
   background: -o-linear-gradient(45deg, #4158d0, #c850c0);
-  background: -moz-linear-gradient(45deg, #4158d0, #c850c0);
+  background: -moz-linear-gradient(45deg, #4158d0, #c850c0);*/
   background: linear-gradient(45deg, #4158d0, #c850c0);
 
   color: #fff;
@@ -28,70 +28,110 @@ body {
 }
 
 .form-control {
+  width: 70%;
+  max-width: 900px;
   display: flex;
-}
-
-input.invalid {
-  border: 2.5px solid red;
+  justify-content: center;
 }
 
 #error {
-  color: white;
+  color: #fff;
   display: none;
   position: relative;
   top: 5px;
-  left: -30px;
-  /*
-     margin-top: 3%;
-   margin-left: 13%;*/
+  left: -6px;
+}
+
+.search-input-wrapper {
+  width: 100%;
+  max-width: 720px;
 }
 
 .input-container {
-  position: relative; /*Essential for positioning the icon */
-  display: block; 
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+
 }
 
-.input-container input {
-  padding-right: 20px; /* Added padding to prevent text overlap with the icon */
-}
-input,
-button {
-  border: 1px solid #dedede;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  font-size: 14px;
+.input-container input[type="text"] {
+  flex: 1;
+  width: 100%;
+  height: 48px;
   padding: 8px 10px;
-  margin: 0;
+  font-size: 14px;
+  border: 1px solid #dedede;
+  border-radius: 4px 0 0 4px;
 }
 
-input[type="text"] {
-  width: 300px;
+.input-container input[type="text"].invalid {
+  border: 2.5px solid red;
 }
 
 .search-btn {
+  height: 48px;
+  width: 44px;
   cursor: pointer;
   border-left: 0;
   border-radius: 0;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  border: 1px solid #dedede;
 }
+
+input:focus,
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Buttons */
 .clear-btn {
+  position: absolute;
+  right: 44px;
+  top: 30%;
+
+  transform: translateY(-50%);
+  height: 24px;
+  width: 24px;
+  border: none;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
   display: none;
+
+  place-items: center;
 }
-.fa fa-times {
-  font-size: 10px;
+
+.clear-btn:hover {
+  color: #333;
 }
+
+/* Icons */
+.search-btn i,
+.clear-btn i {
+  font-size: 18px;
+  line-height: 1;
+  pointer-events: none;
+}
+
 #warning-icon {
   color: red;
   position: relative;
   display: none;
-  top: 2px;
-  left: 295px;
+  top: -10px;
+  right: -450px;
 }
 
-#icon-container i {
-  display: block;
-}
+#warning-icon.show {
+    display: flex;
+  }
 
 .f2container {
   display: flex;
@@ -117,13 +157,11 @@ table {
   border-collapse: collapse;
   width: 60%;
 }
+
 .wrap-table100 {
   width: 100%;
   min-height: 100vh;
-}
-
-table * {
-  position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
 thead tr {
@@ -138,6 +176,7 @@ thead tr {
 table td,
 table th {
   padding-left: 8px;
+  position: relative;
 }
 
 td {
@@ -154,18 +193,49 @@ tbody tr:nth-child(odd) {
   background-color: #f5f5f5;
 }
 
+/* First column (header + body) */
+td.column1,
+th.column1 {
+  width: 218.94px;
+  max-width: 218.94px;
+  min-width: 218.94px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-family: OpenSans-Regular;
+  font-size: 18px;
+  font-weight: normal;
+  color: #fff;
+  background-color: #36304a;
+  border: 1px solid #36304a;
+  padding: 1px 1px 1px 8px;
+}
+
+tbody tr:hover td {
+  background-color: #838080;
+  /* hover for all cells */
+  color: #fff;
+}
+
+tbody tr:hover td.column1 {
+  background-color: #838080;
+  /* first column highlight on hover */
+  color: #fff;
+}
+
 .container-table100 {
   width: 100%;
   min-height: 100vh;
   background: #c850c0;
-  background: -webkit-linear-gradient(45deg, #4158d0, #c850c0);
+  /* background: -webkit-linear-gradient(45deg, #4158d0, #c850c0);
   background: -o-linear-gradient(45deg, #4158d0, #c850c0);
   background: -moz-linear-gradient(45deg, #4158d0, #c850c0);
-  background: linear-gradient(45deg, #4158d0, #c850c0);
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
+  display: -ms-flexbox; */
+  background: linear-gradient(45deg, #4158d0, #c850c0);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,5 +247,112 @@ tbody tr:nth-child(odd) {
   .container-table100 {
     padding-left: 15px;
     padding-right: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+
+
+  /* Hide table header */
+  thead {
+    display: none;
+  }
+
+  .wrap-table100 {
+    overflow-x: hidden;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  tbody tr {
+    display: block;
+    background: #f5f5f5;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  td {
+    display: block;
+    padding: 8px 0;
+    border: none;
+  }
+
+  td.column1 {
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding: 8px 0;
+  }
+
+  td:not(.column1) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  td:not(.column1)::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+  }
+
+  .search-input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .search-input-wrapper input {
+    width: 100%;
+    height: 44px;
+    padding: 0 40px;
+    padding-left: 40px;
+    font-size: 16px;
+  }
+
+  .search-btn {
+    width: 44px;
+    height: 48px;
+    margin-left: 0;
+    border-left: 1px solid #dedede;
+    border-radius: 4px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+  }
+
+  .clear-btn {
+    right: 52px;
+    top: 30%;
+    border: none;
+    background: transparent;
+    transform: translateY(-50%);
+  }
+
+  .input-container {
+    flex-wrap: nowrap;
+  }
+
+  .input-container input[type="text"] {
+    width: 100%;
+    flex: 1;
+    padding: 8px 52px 8px 12px;
+  }
+
+  #warning-icon {
+    color: red;
+    position: relative;
+    top: -12px;
+    left: 160px
   }
 }
